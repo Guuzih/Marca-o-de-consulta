@@ -24,27 +24,6 @@ Instale as dependências: **npm install**
 Compile o TypeScript: **npx tsc**
 Inicialize o servidor: **node dist/server.js**
 
-**Estrutura do Projeto**
-
-├── src/
-│   ├── config/
-│   │   └── database.ts
-│   ├── controllers/
-│   │   ├── authController.ts
-│   │   ├── appointmentController.ts
-│   ├── middlewares/
-│   │   └── authMiddleware.ts
-│   ├── models/
-│   │   ├── User.ts
-│   │   ├── Appointment.ts
-│   ├── routes/
-│   │   ├── authRoutes.ts
-│   │   ├── appointmentRoutes.ts
-│   ├── utils/
-│   │   ├── pdfGenerator.ts
-│   ├── app.ts
-│   ├── server.ts
-
 **Rotas Principais**
 /api/auth/register - Registro de usuários.
 /api/auth/login - Login de usuários.
