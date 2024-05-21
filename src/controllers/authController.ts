@@ -3,8 +3,10 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../config/database';
 import { User } from '../models/User';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import { errorHandler } from '../middlewares/errorMiddleware';
+
+
 
 export const register = async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
@@ -21,13 +23,22 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+
+    const secret = process.env.JWT_SECRET as Secret;
+    if (!secret) {
+        return res.status(500).json({ message: 'JWT secret is not defined' });
+    }
+
+
     try {
         const userRepository = AppDataSource.getRepository(User);
         const user = await userRepository.findOneBy({ email });
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        const token = jwt.sign({ userId: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+        console.log(secret)
+        const token = jwt.sign({ userId: user.id }, secret, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
         res.status(500).json({ message: errorHandler });

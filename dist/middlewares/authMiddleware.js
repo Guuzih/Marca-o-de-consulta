@@ -9,9 +9,10 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const auth = (req, res, next) => {
     var _a;
-    const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
-    if (!token)
+    const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', "");
+    if (!token) {
         return res.status(401).json({ message: 'Access denied' });
+    }
     const secret = process.env.JWT_SECRET;
     if (!secret) {
         return res.status(500).json({ message: 'JWT secret is not defined' });
@@ -22,6 +23,7 @@ const auth = (req, res, next) => {
         next();
     }
     catch (error) {
+        console.error("Error verifying token:", error);
         res.status(400).json({ message: 'Invalid token' });
     }
 };

@@ -34,13 +34,18 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        return res.status(500).json({ message: 'JWT secret is not defined' });
+    }
     try {
         const userRepository = database_1.AppDataSource.getRepository(User_1.User);
         const user = yield userRepository.findOneBy({ email });
         if (!user || !(yield bcryptjs_1.default.compare(password, user.password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
-        const token = jsonwebtoken_1.default.sign({ userId: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
+        console.log(secret);
+        const token = jsonwebtoken_1.default.sign({ userId: user.id }, secret, { expiresIn: '1h' });
         res.json({ token });
     }
     catch (error) {
