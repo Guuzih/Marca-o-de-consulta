@@ -3,6 +3,7 @@
 Este projeto é uma API desenvolvida em Node.js com TypeScript para gerenciar marcação de consultas médicas. Ele inclui funcionalidades como autenticação JWT, agendamento de consultas, geração de PDFs e documentação Swagger.
 
 
+
 ### **Funcionalidades Principais**
 
 Autenticação de usuários com JWT.
@@ -12,6 +13,7 @@ CRUD de consultas médicas.
 Geração de PDFs com detalhes das consultas.
 
 Documentação completa com Swagger.
+
 
 
 ### **Tecnologias Utilizadas**
@@ -35,6 +37,7 @@ PDFKit para geração de PDFs
 Swagger para documentação da API
 
 
+
 ### **Configuração do Projeto**
 
 Clone o repositório: git clone git@github.com:Guuzih/Marca-o-de-consulta.git
@@ -45,15 +48,23 @@ Compile o TypeScript: **npx tsc**
 
 Inicialize o servidor: **node dist/server.js**
 
-###**Rotas Principais**
 
-/api/auth/register - Registro de usuários.
 
-/api/auth/login - Login de usuários.
+### **Rotas Principais**
 
-/api/appointments - CRUD de consultas médicas.
+**POST - /api/auth/register** - Registro de usuários.
 
-/api/appointments/:id/pdf - Visualização do PDF com detalhes da consulta.
+**POST - /api/auth/login** - Login de usuários.
+
+**GET - /api/appointments** - Listar consultas médicas.
+
+**POST - /api/appointments** - Registrar consulta médica
+
+**PUT - /api/appointments/:id** - Atualizar consulta médica
+
+**DEL - /api/appointments/:id** - Excluir consulta médica
+
+**GET -/api/appointments/:id/pdf** - Visualização do PDF com detalhes da consulta.
 
 
 
@@ -62,11 +73,7 @@ Inicialize o servidor: **node dist/server.js**
 A documentação completa da API está disponível em **http://localhost:3000/api-docs** após iniciar o servidor.
 
 
-### **Testes**
-
-Certifique-se de testar todas as funcionalidades antes de colocar em produção.
-
-Você pode adicionar exemplos de requisições na documentação Swagger para facilitar o entendimento.
 
 ### **Observações**
-Para segurança em produção, lembre-se de configurar corretamente o JWT_SECRET e as credenciais do banco de dados no arquivo .env.
+
+Para segurança em produção, lembre-se de configurar corretamente o **JWT_SECRET e as credenciais do banco de dados no arquivo .env**.
