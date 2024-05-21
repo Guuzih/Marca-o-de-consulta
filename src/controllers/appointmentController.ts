@@ -4,7 +4,7 @@ import { AppDataSource } from '../config/database';
 import { Appointment } from '../models/Appointment';
 import { User } from '../models/User';
 import { generatePDF } from '../utils/pdfGenerator';
-import path from 'path';
+import path, { join } from 'path';
 import { errorHandler } from '../middlewares/errorMiddleware';
 
 
@@ -92,7 +92,8 @@ export const getAppointmentPDF = async (req: Request, res: Response) => {
 
         if (!appointment) return res.status(404).json({ message: 'Appointment not found' });
 
-        const filePath = path.join(__dirname, `../../pdfs/appointment_${appointment.id}.pdf`);
+        const tempDir = '/tmp/pdfs';
+        const filePath = join(tempDir, `appointment_${appointment.id}.pdf`);
         res.sendFile(filePath);
     } catch (error) {
         res.status(500).json({ message: errorHandler });
