@@ -1,19 +1,18 @@
+
 import PDFDocument from 'pdfkit';
 import { Appointment } from '../models/Appointment';
 import fs from 'fs';
-import { join } from 'path';
+
+const dir = './pdfs';
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+}
 
 export const generatePDF = async (appointment: Appointment) => {
     const doc = new PDFDocument();
     const fileName = `appointment_${appointment.id}.pdf`;
 
-    const tempDir = '/tmp/pdfs';
-    if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir, { recursive: true });
-    }
-    const filePath = join(tempDir, fileName);
-
-    doc.pipe(fs.createWriteStream(filePath));
+    doc.pipe(fs.createWriteStream(`./pdfs/${fileName}`));
 
     doc.fontSize(25).text('Detalhes da Consulta', { align: 'center' });
     doc.moveDown();
@@ -28,6 +27,4 @@ export const generatePDF = async (appointment: Appointment) => {
     doc.moveDown();
 
     doc.end();
-
-    return filePath;
 };

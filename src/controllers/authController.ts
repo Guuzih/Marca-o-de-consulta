@@ -33,13 +33,15 @@ export const login = async (req: Request, res: Response) => {
     try {
         const userRepository = AppDataSource.getRepository(User);
         const user = await userRepository.findOneBy({ email });
+
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        console.log(secret)
         const token = jwt.sign({ userId: user.id }, secret, { expiresIn: '1h' });
+
         res.json({ token });
+
     } catch (error) {
         res.status(500).json({ message: errorHandler });
     }
